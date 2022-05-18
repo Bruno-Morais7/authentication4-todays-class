@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+# this is our model & Class User
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -17,3 +18,15 @@ class User(db.Model):
             "email": self.email,
             # do not serialize the password, its a security breach
         }
+    
+    def save_user(self):
+        #how to actually save the user in the db
+        db.session.add(self)
+        db.session.commit()
+
+    def check_if_user_exists_and_get_it(email):
+        user_found = User.query.filter_by(email=email)
+
+        print(user_found)
+        return user_found
+
